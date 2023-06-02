@@ -1,3 +1,13 @@
+mod-train-pplm:
+	./scripts/train/train_pplm.sh \
+		data/train/pplm \
+		checkpoints/pplm \
+		CommunityLM/republican-twitter-gpt2
+
+mod-twtdata:
+	head -n 10000 data/raw/twitter/twtdata.txt > data/train/pt/train.tsv
+	tail -n +10001 data/raw/twitter/twtdata.txt > data/train/pt/valid.tsv
+
 data:
 	mkdir -p data/eval/translation_pairs/scored/ data/eval/translation_pairs/filtered/ data/train/pplm data/train/gedi data/train/ft data/pt
 	python3 scripts/data-processing/make_train_data.py \
@@ -20,7 +30,7 @@ data:
 train-pt:
 	./scripts/train/pretrain.sh \
 		data/pt \
-		checkpoints/pt \
+		checkpoints/pt 
 
 train-ft:
 	./scripts/train/finetune.sh \

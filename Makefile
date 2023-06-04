@@ -1,8 +1,78 @@
-mod-train-pplm:
+repub-train-pplm:
 	./scripts/train/train_pplm.sh \
 		data/train/pplm \
 		checkpoints/pplm \
-		CommunityLM/republican-twitter-gpt2
+		models/republican-twitter-gpt2
+
+gpt2-train-pplm:
+	./scripts/train/train_pplm.sh \
+		data/train/pplm \
+		checkpoints/pplm \
+		gpt2
+
+gpt2-train-pplm_100:
+	./scripts/train/train_pplm.sh \
+		data/train/pplm_100 \
+		checkpoints/pplm_100 \
+		gpt2
+
+gpt2-train-pplm_10000:
+	./scripts/train/train_pplm.sh \
+		data/train/pplm_10000 \
+		checkpoints/pplm_10000 \
+		gpt2
+
+gpt2-eval-pplm_100:
+	./scripts/ppl/ppl_pplm.sh \
+		data/eval/translation_pairs/filtered/nontoxic_wae.txt \
+		checkpoints/pplm_100/generic_classifier_head_epoch_10.pt \
+		logs/pplm_100/nontoxic_wae.txt
+
+gpt2-eval:
+	./scripts/ppl/ppl_ft.sh \
+		gpt2 \
+		data/eval/translation_pairs/filtered/nontoxic_wae.txt \
+		logs/gpt2/nontoxic_wae.txt
+
+gpt2-eval-pplm_10000:
+	./scripts/ppl/ppl_pplm.sh \
+		data/eval/translation_pairs/filtered/nontoxic_wae.txt \
+		checkpoints/pplm_10000/generic_classifier_head_epoch_10.pt \
+		logs/pplm_10000/nontoxic_wae.txt
+
+	./scripts/ppl/ppl_pplm.sh \
+		data/eval/translation_pairs/filtered/nontoxic_aae.txt \
+		checkpoints/pplm_10000/generic_classifier_head_epoch_10.pt \
+		logs/pplm_10000/nontoxic_aae.txt
+
+	./scripts/ppl/ppl_pplm.sh \
+		data/eval/translation_pairs/filtered/toxic_wae.txt \
+		checkpoints/pplm_10000/generic_classifier_head_epoch_10.pt \
+		logs/pplm_10000/toxic_wae.txt
+
+	./scripts/ppl/ppl_pplm.sh \
+		data/eval/translation_pairs/filtered/toxic_aae.txt \
+		checkpoints/pplm_10000/generic_classifier_head_epoch_10.pt \
+		logs/pplm_10000/toxic_aae.txt
+
+gen-pplm_100-unprompted:
+	./scripts/generation/gen_pplm.sh \
+		checkpoints/pplm_100/generic_classifier_head_epoch_10.pt \
+		generations/pplm_100/nontoxic_wae.txt \
+		10
+
+gen-pplm_10000-unprompted:
+	./scripts/generation/gen_pplm.sh \
+		checkpoints/pplm_10000/generic_classifier_head_epoch_10.pt \
+		generations/pplm_10000/nontoxic_wae.txt \
+		10
+
+gen-pplm_100-prompted:
+	./scripts/generation/gen_pplm.sh \
+		checkpoints/pplm_100/generic_classifier_head_epoch_10.pt \
+		generations/pplm_100/nontoxic_wae_prompted.txt \
+		10 \
+		data/eval/translation_pairs/filtered/nontoxic_wae.txt 
 
 mod-twtdata:
 	head -n 10000 data/raw/twitter/twtdata.txt > data/train/pt/train.tsv
@@ -16,7 +86,7 @@ data:
 		--gedi-output data/train/gedi \
 		--pplm-output data/train/pplm 
 	python3 scripts/score_generations.py \
-		data/raw/translation_pairs/aave_samples.txt \
+		data/raw/translation_pairs/aave_samples.tx	t \
 		data/eval/translation_pairs/scored/aave_samples_scores.jsonl
 	python3 scripts/score_generations.py \
 		data/raw/translation_pairs/wae_samples.txt \

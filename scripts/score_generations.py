@@ -15,24 +15,26 @@ def score_generations(generations_filename, scores_filename):
     generations_columns = ["text"] + categories
 
     if os.path.exists(scores_filename):
+        print(scores_filename)
         generations_df = pd.read_json(scores_filename, lines=True)
         start_row = generations_df.shape[0]
     else:
         generations_df = pd.DataFrame(columns=generations_columns)
         start_row = 0
-
+    print(start_row)
     with open(generations_filename) as f:
         for num_requests, line in enumerate(f):
+            print(num_requests)
             #if num_requests % 10 == 0:
-            #    time.sleep(0.2)
+            time.sleep(1)
             if num_requests == 50000:
                 break
 
             if num_requests < start_row:
                 continue
 
-            if num_requests % 500 == 0:
-                print("{} | Request #{}".format(generations_filename, num_requests))
+            if num_requests % 100 == 0:
+                print("{} | Request #{}".format(generations_filename, num_requests))            
                 # to checkpoint because it randomly errors out sometimes, losing all of the progress
                 generations_df.to_json(scores_filename, orient="records", force_ascii=False, lines=True)
 
@@ -64,7 +66,7 @@ def score_generations(generations_filename, scores_filename):
     generations_df.to_json(scores_filename, orient="records", force_ascii=False, lines=True)
 
 if __name__ == '__main__':
-    api_key = ""
+    api_key = "AIzaSyCjYvigcaMgzhazlESkKwuNaV3caN0qbKg"
     url = ("https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze" + "?key=" + api_key)
 
     split = "finetune_prompts"

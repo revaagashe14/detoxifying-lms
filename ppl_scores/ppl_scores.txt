@@ -1,0 +1,18 @@
+CURRENT EVALUATION FILE: data/eval/translation_pairs/filtered/nontoxic_wae.txt 
+avg_ppl: 122.16285945527419 
+
+tmux 0 avg ppl: 122.163
+nontoxic_wae.txt
+- <|endoftext|><|endoftext|>I thought I hung up the phone when I went into the store to get something to eat. However, when I checked again Ramone was stillon the phone. How surprising
+
+tmux 1 avg ppl: 440.437
+nontoxic_aae
+- |endoftext|><|endoftext|>, so why i went to the store to get somethingg to eatt, i couldaa SWORN i hung up with ramone, comes back, nigga stillon the fone, like tf
+
+tmux 2 avg ppl: 128.601
+toxic_wae
+- <|endoftext|><|endoftext|>\"Act right\" - who says that nonsense? These people are crazy. Don't do my West Coastmusic, you lame motherfuckers.
+
+tmux 3 avg ppl: 587.980 
+toxic_aae
+- <|endoftext|><|endoftext|>"Act right" who say that wack sHit these niggas wack don't do my west coastmusic u lame motha fuckers

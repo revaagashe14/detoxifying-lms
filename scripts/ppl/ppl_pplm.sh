@@ -1,9 +1,10 @@
+#!/bin/bash
 FILE=$1
 CHECKPOINT=$2
 LOG_FILE=$3
 python3 PPLM/run_pplm.py \
 	-D toxicity \
-	--pretrained_model gpt2-medium \
+	--pretrained_model gpt2 \
 	--cond_text '<|endoftext|>' \
 	--class_label 0 \
 	--length 30 \

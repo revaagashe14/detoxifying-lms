@@ -12,4 +12,4 @@ python3 FT/train.py --output_dir ../trash/ \
 	--logging_dir ${LOG_DIR} \
 	--evaluation_strategy steps \
 	--eval_steps 500 \
-	--line_by_line
+	--line_by_line | tee see_output.txt

@@ -1,5 +1,4 @@
-CURRENT EVALUATION FILE: data/eval/translation_pairs/filtered/nontoxic_wae.txt 
-avg_ppl: 122.16285945527419 
+PPLM
 
 tmux 0 avg ppl: 122.163
 nontoxic_wae.txt
@@ -16,3 +15,18 @@ toxic_wae
 tmux 3 avg ppl: 587.980 
 toxic_aae
 - <|endoftext|><|endoftext|>"Act right" who say that wack sHit these niggas wack don't do my west coastmusic u lame motha fuckers
+
+
+GPT2:
+
+File: nontoxic_wae
+Perplexity: 76.48056143459078
+
+File: toxic_wae
+perplexity = 83.57182038776521
+
+File: nontoxic_aae 
+perplexity = 258.93985180262837
+
+File: toxic_aae
+perplexity = 343.1750351192951

@@ -1,3 +1,21 @@
+predict-aave:
+	./scripts/twitteraae/predict.sh \
+		data/train/pplm_10000/train.tsv \
+		project/predictions_10000/toxic_aae.tsv \
+		project/predictions_10000/nontoxic_aae.tsv \
+		project/predictions_10000/toxic_wae.tsv \
+		project/predictions_10000/nontoxic_wae.tsv \
+		project/predictions_10000/other.tsv 
+
+predict-aave-D4:
+	./scripts/twitteraae/predict.sh \
+		data/debiased/D4/train.tsv \
+		project/predictions_D4/toxic_aae.tsv \
+		project/predictions_D4/nontoxic_aae.tsv \
+		project/predictions_D4/toxic_wae.tsv \
+		project/predictions_D4/nontoxic_wae.tsv \
+		project/predictions_D4/other.tsv 
+
 repub-train-pplm:
 	./scripts/train/train_pplm.sh \
 		data/train/pplm \
@@ -22,6 +40,24 @@ gpt2-train-pplm_10000:
 		checkpoints/pplm_10000 \
 		gpt2
 
+gpt2-train-pplm_D3:
+	./scripts/train/train_pplm.sh \
+		data/debiased/D3 \
+		checkpoints/pplm_D3 \
+		gpt2
+
+gpt2-train-pplm_D4:
+	./scripts/train/train_pplm.sh \
+		data/debiased/D4 \
+		checkpoints/pplm_D4 \
+		gpt2
+
+gpt2-train-pplm_D5:
+	./scripts/train/train_pplm.sh \
+		data/debiased/D5 \
+		checkpoints/pplm_D5 \
+		gpt2
+
 gpt2-eval-pplm_100:
 	./scripts/ppl/ppl_pplm.sh \
 		data/eval/translation_pairs/filtered/nontoxic_wae.txt \
@@ -31,9 +67,9 @@ gpt2-eval-pplm_100:
 gpt2-eval:
 	./scripts/ppl/ppl_ft.sh \
 		gpt2 \
-		data/eval/translation_pairs/filtered/nontoxic_wae.txt \
-		logs/gpt2/nontoxic_wae.txt
-
+		data/eval/translation_pairs/filtered/toxic_aae.txt \
+		logs/gpt2/toxic_aae.txt
+		
 gpt2-eval-pplm_10000:
 	./scripts/ppl/ppl_pplm.sh \
 		data/eval/translation_pairs/filtered/nontoxic_wae.txt \
@@ -55,6 +91,28 @@ gpt2-eval-pplm_10000:
 		checkpoints/pplm_10000/generic_classifier_head_epoch_10.pt \
 		logs/pplm_10000/toxic_aae.txt
 
+#commands to run for each dataset
+gpt2-eval-datasets:
+	./scripts/ppl/ppl_pplm.sh \
+		data/eval/translation_pairs/filtered/nontoxic_wae.txt \
+		checkpoints/pplm_D5/generic_classifier_head_epoch_10.pt \
+		logs/pplm_D5/nontoxic_wae.txt
+
+	./scripts/ppl/ppl_pplm.sh \
+		data/eval/translation_pairs/filtered/nontoxic_aae.txt \
+		checkpoints/pplm_D5/generic_classifier_head_epoch_10.pt \
+		logs/pplm_D5/nontoxic_aae.txt
+
+	./scripts/ppl/ppl_pplm.sh \
+		data/eval/translation_pairs/filtered/toxic_wae.txt \
+		checkpoints/pplm_D4/generic_classifier_head_epoch_10.pt \
+		logs/pplm_D4/toxic_wae.txt
+
+	./scripts/ppl/ppl_pplm.sh \
+		data/eval/translation_pairs/filtered/toxic_aae.txt \
+		checkpoints/pplm_D4/generic_classifier_head_epoch_10.pt \
+		logs/pplm_D4/toxic_aae.txt
+
 gen-pplm_100-unprompted:
 	./scripts/generation/gen_pplm.sh \
 		checkpoints/pplm_100/generic_classifier_head_epoch_10.pt \
@@ -64,8 +122,26 @@ gen-pplm_100-unprompted:
 gen-pplm_10000-unprompted:
 	./scripts/generation/gen_pplm.sh \
 		checkpoints/pplm_10000/generic_classifier_head_epoch_10.pt \
-		generations/pplm_10000/nontoxic_wae.txt \
-		10
+		generations/pplm_10000/nontoxic_aae.txt \
+		40
+		
+gen-pplm_D3-unprompted:
+	./scripts/generation/gen_pplm.sh \
+		checkpoints/pplm_D3/generic_classifier_head_epoch_10.pt \
+		generations/pplm_D3/outputs.txt \
+		40
+
+gen-pplm_D4-unprompted:
+	./scripts/generation/gen_pplm.sh \
+		checkpoints/pplm_D4/generic_classifier_head_epoch_10.pt \
+		generations/pplm_D4/outputs.txt \
+		40
+
+gen-gpt-unprompted:
+	./scripts/generation/gen_finetuned.sh \
+		gpt2 \
+		generations/gpt/nontoxic_wae.txt \
+		40
 
 gen-pplm_100-prompted:
 	./scripts/generation/gen_pplm.sh \
@@ -86,7 +162,7 @@ data:
 		--gedi-output data/train/gedi \
 		--pplm-output data/train/pplm 
 	python3 scripts/score_generations.py \
-		data/raw/translation_pairs/aave_samples.tx	t \
+		data/raw/translation_pairs/aave_samples.txt \
 		data/eval/translation_pairs/scored/aave_samples_scores.jsonl
 	python3 scripts/score_generations.py \
 		data/raw/translation_pairs/wae_samples.txt \
